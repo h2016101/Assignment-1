@@ -1,7 +1,10 @@
-This is a true random number generator which generates a random number (POSITIVE ONLY) between the range provided by the user. It works using combination of two functions get_random_bytes provided in linux/random.h and timespec which read kernel time in nanoseconds and provide a random number . A totally random number generating process will first select one of the function out of these two and then the function provide random number to user space. 
+This is a true random number generator which generates a random number (POSITIVE ONLY) between the range provided by the user. 
+It works using combination of two functions get_random_bytes provided in linux/random.h and timespec which read kernel time 
+in nanoseconds and provide a random number . A totally random number generating process will first select one of the function
+out of these two and then the function provide random number to user space. 
 
 
-The input range starts from 0, in case negative number are required change the type of rand variable from uint to int in main.c .
+The input range starts from 0, in case negative number are required change the type of rand variable from uint to int in main.c 
 
 Procedure :
 
@@ -19,4 +22,5 @@ press enter after each step and you will see random number generated .
  
 
 
-you can view the kernel messages also using dmesg after ./a.out (optional) this will show you random number generated and which amongst the two function is used to do so.
+you can view the kernel messages also using dmesg after ./a.out (optional) this will show you random number generated and which
+amongst the two function is used to do so.
