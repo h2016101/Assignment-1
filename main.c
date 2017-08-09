@@ -78,7 +78,7 @@ long device_ioctl(struct file *file,
 				get_random_bytes(&rand,4);  
 				rand%=secondNumber;	      	
 							 			
-			if(firstNumber<=rand)	       
+			if(firstNumber<rand)	       
 				{
 			            printk(KERN_INFO"random number is %d",rand);
 				    ioctl_param = rand; /*random variable 
@@ -101,7 +101,7 @@ long device_ioctl(struct file *file,
 				ts = current_kernel_time();	
 				time_rand=(ts.tv_nsec);
 				time_rand%=secondNumber;
-			if(firstNumber<=time_rand)	       
+			if(firstNumber<time_rand)	       
 	
 			    {
 			       printk(KERN_INFO"random number is %d",time_rand);
