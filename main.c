@@ -17,7 +17,12 @@
 #include <linux/ioctl.h>
 #include <asm/uaccess.h>
 #include "assignment1.h"  
-
+#include <linux/init.h>
+#include <linux/syscalls.h>
+#include <linux/fcntl.h>
+#include <asm/segment.h>
+#include <linux/buffer_head.h>
+ 
 static dev_t first; // variable for major and minor number
 static struct cdev c_dev; // variable for the character device structure
 static struct class *cls; // variable for the device class
@@ -25,6 +30,34 @@ static int firstNumber;//global variable to hold the lower range
 static int secondNumber;//global variable to hold the higher range
 struct timespec ts;     
 
+
+/*display system entropy in kernel by readin the file /proc/sys/kernel/random/entropy_avail*/
+static void read_file(char *filename)
+{
+  struct file* fd = NULL;
+  size_t bound = 4 ;
+  int entropy =0;
+  int conv ,k;
+  unsigned char* buf = kmalloc(bound,GFP_USER);
+  loff_t offset = 0;
+  char __user *p = (__force char __user *) buf;  
+  mm_segment_t old_fs = get_fs();
+  set_fs(KERNEL_DS);
+
+  fd = filp_open(filename, O_RDONLY, 0);
+  if (fd >= 0) {
+    printk(KERN_DEBUG);
+    vfs_read(fd, p , 4 ,&offset);
+  for (k=0;k<4;k++)
+    { conv = (int) *(buf+k);
+      conv=conv-48;
+      entropy=entropy*10 +conv;
+    } 
+   printk("entropy is %d", entropy);
+    filp_close(fd,NULL);
+  }
+  set_fs(old_fs);
+}
 
 /*ioctl function call mapping 
  *to & from user space to kernel space*/
@@ -190,7 +223,8 @@ static int __init trng_init(void)
 		printk(KERN_INFO "device created ");
 	    }
 
-    
+    read_file("/proc/sys/kernel/random/entropy_avail");
+  
      
     /* Link fops and cdev to device node */
 
