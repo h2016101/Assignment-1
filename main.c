@@ -35,7 +35,7 @@ struct timespec ts;
 static void read_file(char *filename)
 {
   struct file* fd = NULL;
-  size_t bound = 4 ;
+  size_t bound = 4 ; 
   int entropy =0;
   int conv ,k;
   unsigned char* buf = kmalloc(bound,GFP_USER);
