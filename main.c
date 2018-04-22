@@ -31,7 +31,7 @@ static int secondNumber;//global variable to hold the higher range
 struct timespec ts;     
 
 
-/*display system entropy in kernel by readin the file /proc/sys/kernel/random/entropy_avail*/
+/*display system entropy in kernel by reading the file /proc/sys/kernel/random/entropy_avail*/
 static void read_file(char *filename)
 {
   struct file* fd = NULL;
