@@ -40,14 +40,13 @@ static void read_file(char *filename)
   int conv ,k;
   unsigned char* buf = kmalloc(bound,GFP_USER);
   loff_t offset = 0;
-  char __user *p = (__force char __user *) buf;  
+  char __user *locn = (__force char __user *) buf;  
   mm_segment_t old_fs = get_fs();
   set_fs(KERNEL_DS);
-
   fd = filp_open(filename, O_RDONLY, 0);
   if (fd >= 0) {
     printk(KERN_DEBUG);
-    vfs_read(fd, p , 4 ,&offset);
+    vfs_read(fd, locn , 4 ,&offset);
   for (k=0;k<4;k++)
     { conv = (int) *(buf+k);
       conv=conv-48;
